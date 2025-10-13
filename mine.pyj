@@ -1,0 +1,23 @@
+from sys import argv
+from keycode import KeyCode
+import system.pyj.minescript as ms
+from system.pyj.minescript import TargetedBlock
+import lib.gui
+
+_RUNNING = True
+def cancel_mining():
+    _RUNNING = False
+
+# keybinds.batch([
+#     (KeyCode.DELETE, cancel_mining)
+# ])
+
+num_blocks: int = int(argv[1])
+
+# gui.set_title(f"Mining {num_blocks} blocks")
+
+# while _RUNNING:
+for i in range(10):
+    block = ms.player_get_targeted_block(4.5)
+    # gui.set_actionbar(f"Looking at {block}")
+    ms.echo(block.position)
