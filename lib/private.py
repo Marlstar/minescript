@@ -1,6 +1,6 @@
 from lib.javatypes import Clazz
 
-def get_field(clazz, field_name, super_class: bool=False): # type: ignore
+def get_field(clazz, field_name: str, super_class: bool=False): # type: ignore
     if super_class:
         c = clazz.getClass().getSuperclass()
     else:

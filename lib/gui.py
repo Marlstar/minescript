@@ -1,106 +1,57 @@
-import lib.private
+# pyright: reportUnknownMemberType=false
+# pyright: reportUnknownVariableType=false
+# pyright: reportUnknownArgumentType=false
 
-def get_title() -> str | None:
-    """
-    Retrieves the title
+from lib.private import get_field
+from lib.instance import mc
+from lib.javatypes import Component
 
-    Returns:
-        str or None: The title, or None if not available.
-    """
-    title = private.get_field(mc.gui, "title")
-    if title is not None:
-        title = title.tryCollapseToString()
-    return title  # type: ignore
+class Title:
+    @staticmethod
+    def get() -> str | None:
+        title = get_field(mc.gui, "title")
+        if title is not None:
+            title = title.tryCollapseToString()
+        return title
 
-def get_subtitle() -> str | None:
-    """
-    Retrieves the subtitle
+    @staticmethod
+    def set(text: str):
+        mc.gui.setTitle(Component.literal(text))
 
-    Returns:
-        str or None: The subtitle, or None if not available.
-    """
-    subtitle = private.get_field(mc.gui, "subtitle")
-    if subtitle is not None:
-        subtitle = subtitle.tryCollapseToString()
-    return subtitle  # type: ignore
+class Subtitle:
+    @staticmethod
+    def get() -> str | None:
+        subtitle = get_field(mc.gui, "subtitle")
+        if subtitle is not None:
+            subtitle = subtitle.tryCollapseToString()
+        return subtitle
 
-def get_actionbar() -> str | None:
-    """
-    Retrieves and clears the current action bar (overlay message) string from the Minecraft GUI.
+    @staticmethod
+    def set(text: str):
+        mc.gui.setSubtitle(Component.literal(text))
 
-    Returns:
-        str or None: The current overlay message string if present, otherwise None.
-    """
-    overlayMessageString = private.get_field(mc.gui, "overlayMessageString")
-    if overlayMessageString is not None:
-        overlayMessageString = overlayMessageString.tryCollapseToString()
-        mc.gui.setOverlayMessage(None, False)
-    return overlayMessageString  # type: ignore
+class Actionbar:
+    @staticmethod
+    def get() -> str | None:
+        overlayMessageString = get_field(mc.gui, "overlayMessageString")
+        if overlayMessageString is not None:
+            overlayMessageString = overlayMessageString.tryCollapseToString()
+        return overlayMessageString  # type: ignore
 
-def set_title(text: str) -> None:
-    """
-    Sets the title to the specified text.
+    @staticmethod
+    def set(text: str, tinted: bool = False):
+        mc.gui.setOverlayMessage(Component.literal(text), tinted)
 
-    Args:
-        text (str): The text to set as the title.
+class TitleTimes:
+    @staticmethod
+    def set(fade_in: int, stay: int, fade_out: int):
+        """ Sets the timing for the title and subtitle display (in ticks) """
+        mc.gui.setTimes(fade_in, stay, fade_out)
 
-    Returns:
-        None
-    """
-    mc.gui.setTitle(Component.literal(text))
+    @staticmethod
+    def reset():
+        mc.gui.resetTitleTimes()
 
-def set_subtitle(text: str) -> None:
-    """
-    Sets the subtitle to the specified text.
-
-    Args:
-        text (str): The text to set as the subtitle.
-
-    Returns:
-        None
-    """
-    mc.gui.setSubtitle(Component.literal(text))
-
-def set_actionbar(text: str, tinted: bool = False) -> None:
-    """
-    Sets the actionbar to the specified text.
-
-    Args:
-        text (str): The text to set as the actionbar.
-
-    Returns:
-        None
-    """
-    mc.gui.setOverlayMessage(Component.literal(text), tinted)
-
-def set_title_times(fadeInTicks: int, stayTicks: int, fadeOutTicks: int) -> None:
-    """
-    Sets the timing for the title and subtitle display.
-
-    Args:
-        fadeInTicks (int): Number of ticks for the title to fade in.
-        stayTicks (int): Number of ticks for the title to stay visible.
-        fadeOutTicks (int): Number of ticks for the title to fade out.
-
-    Returns:
-        None
-    """
-    mc.gui.setTimes(fadeInTicks, stayTicks, fadeOutTicks)
-
-def reset_title_times() -> None:
-    """
-    Resets the title and subtitle display times to the default values.
-
-    Returns:
-        None
-    """
-    mc.gui.resetTitleTimes()
-
-def clear_titles() -> None:
-    """
-    Clear the title and subtitle.
-
-    Returns:
-        None
-    """
+def clear_titles():
+    """ Clear title and subtitle """
     mc.gui.clearTitles()

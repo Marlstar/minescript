@@ -1,3 +1,13 @@
+# pyright: basic
+# pyright: reportMissingImports=false
+# pyright: reportInvalidTypeForm=false
+# pyright: reportOptionalSubscript=false
+# pyright: reportAttributeAccessIssue=false
+# pyright: reportOperatorIssue=false
+# pyright: reportRedeclaration=false
+# pyright: reportReturnType=false
+# pyright: reportUnreachable=false
+# pyright: reportUnusedParameter=false
 """
     Minescript Plus
     Version: 0.15.0-alpha
