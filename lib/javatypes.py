@@ -1,3 +1,5 @@
+from system.lib.java import JavaClass
+
 Array = JavaClass("java.lang.reflect.Array")
 Clazz = JavaClass("java.lang.Class")
 Float = JavaClass("java.lang.Float")
