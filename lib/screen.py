@@ -1,7 +1,7 @@
 from system.lib.minescript import screen_name
+from system.lib.minescript_runtime import render_loop
 import lib.mouse as mouse
 from lib.instance import mc
-from system.lib.minescript_runtime import render_loop
 from lib import net
 
 def wait_for_screen(target: str | list[str] | None = None):
@@ -14,7 +14,6 @@ def wait_for_screen(target: str | list[str] | None = None):
             if isinstance(target, str) and name == target: break
             elif isinstance(target, list) and name in target: break
             else: break
-
 
 def close():
     screen = mc.screen
