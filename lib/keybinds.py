@@ -15,7 +15,9 @@ class Keybind:
         self.mods = mods
         self.callback = callback
 
-        self._thread = Thread(target=self._eventloop, daemon=True)
+        q = EventQueue()
+        q.register_key_listener()
+        self._thread = Thread(target=self._eventloop, args=[q], name=f"Keybind-{key}", daemon=True)
         self._thread.start()
 
     @staticmethod
@@ -23,15 +25,14 @@ class Keybind:
         bind = Keybind(key, mods, callback)
         _binds.append(bind)
 
-    def _eventloop(self):
-        with EventQueue() as queue:
-            queue.register_key_listener()
-            while True:
-                event = queue.get()
-                if event.action == 0 and event.key == self.key:
-                    self.callback()
+    def _eventloop(self, queue: EventQueue):
+        queue.register_key_listener()
+        while True:
+            event = queue.get()
+            if event.action == 0 and event.key == self.key:
+                self.callback()
 
-_binds = []
+_binds: list[Keybind] = []
 
 def reset():
     _binds.clear()
