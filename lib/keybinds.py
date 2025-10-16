@@ -10,10 +10,11 @@ Callback = Callable[[], Any]
 
 @final
 class Keybind:
-    def __init__(self, key: int, mods: Modifiers, callback: Callback):
+    def __init__(self, key: int, mods: Modifiers, callback: Callback, allow_repeat: bool = False):
         self.key = key
         self.mods = mods
         self.callback = callback
+        self.allow_repeat = allow_repeat
 
         q = EventQueue()
         q.register_key_listener()
@@ -31,6 +32,8 @@ class Keybind:
             event = queue.get(True)
             if event.action == 0 and event.key == self.key:
                 self.callback()
+                if not self.allow_repeat: # Clear the event queue
+                    while queue.queue.qsize() > 0: queue.get(False)
 
 _binds: list[Keybind] = []
 
