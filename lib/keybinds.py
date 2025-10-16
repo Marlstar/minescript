@@ -28,7 +28,7 @@ class Keybind:
     def _eventloop(self, queue: EventQueue):
         queue.register_key_listener()
         while True:
-            event = queue.get()
+            event = queue.get(True)
             if event.action == 0 and event.key == self.key:
                 self.callback()
 
