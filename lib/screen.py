@@ -2,6 +2,7 @@ from system.lib.minescript import screen_name
 import lib.mouse as mouse
 from lib.instance import mc
 from system.lib.minescript_runtime import render_loop
+from lib import net
 
 def wait_for_screen(target: str | list[str] | None = None):
     if isinstance(target, list) and len(target) == 0:
@@ -21,6 +22,5 @@ def close():
         with render_loop:
             id = screen.getMenu().containerId
             mc.setScreen(None)
-            # TODO: send packet
-            # Client.send_packet("ServerboundContainerClosePacket", id)
+            net.packet.send("ServerboundContainerClosePacket", id)
             mouse.set_grabbed(True)
