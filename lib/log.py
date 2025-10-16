@@ -41,5 +41,5 @@ def error(text: str, scope: str | None = None):
 def warn(text: str, scope: str | None = None):
     echo_coloured(f"{_scope(scope)}{text}", YELLOW)
 
-def notify(text: str, scope: str | None = None):
+def info(text: str, scope: str | None = None):
     echo_coloured(f"{_scope(scope)}{text}", BLUE)
