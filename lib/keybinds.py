@@ -1,6 +1,7 @@
 from typing import Any, Callable, final
 from threading import Thread
 from system.lib import minescript as ms
+from lib import log
 from lib.keyboard import Modifiers
 from system.lib.minescript import EventQueue, KeyEvent
 
@@ -19,6 +20,7 @@ class Keybind:
         q = EventQueue()
         q.register_key_listener()
         self._thread = Thread(target=self._eventloop, args=[q], name=f"Keybind-{key}", daemon=True)
+        log.info("Starting listener", f"keybind/{key}+{mods}")
         self._thread.start()
 
     @staticmethod
@@ -27,9 +29,9 @@ class Keybind:
         _binds.append(bind)
 
     def _eventloop(self, queue: EventQueue):
-        queue.register_key_listener()
         while True:
-            event = queue.get(True)
+            event: KeyEvent = queue.get(True)
+            print(f"EVENT: {event}")
             if event.action == 0 and event.key == self.key:
                 self.callback()
                 if not self.allow_repeat: # Clear the event queue
